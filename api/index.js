@@ -1,7 +1,15 @@
 // api/index.js
 
 const express = require('express');
+const cors = require('cors');  // Add cors requirement
 const app = express();
+
+// Enable CORS for all origins
+app.use(cors({
+    origin: '*',  // Allow all origins
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],  // Allowed methods
+    allowedHeaders: ['Content-Type', 'Authorization']  // Allowed headers
+}));
 
 app.use(express.json());
 let issues = [];
@@ -41,6 +49,9 @@ app.get('/api/getIssues', (req, res) => {
         issues: filteredIssues
     });
 });
+
+// Handle OPTIONS requests
+app.options('*', cors());
 
 // Export the express app
 module.exports = app;

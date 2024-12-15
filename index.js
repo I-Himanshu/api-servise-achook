@@ -1,6 +1,15 @@
+// api/index.js
+
 const express = require('express');
+const cors = require('cors');  // Add cors requirement
 const app = express();
-const port = 3000;
+
+// Enable CORS for all origins
+app.use(cors({
+    origin: '*',  // Allow all origins
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],  // Allowed methods
+    allowedHeaders: ['Content-Type', 'Authorization']  // Allowed headers
+}));
 
 app.use(express.json());
 let issues = [];
@@ -8,7 +17,7 @@ let issueIdCounter = 1;
 
 const getCurrentTimestamp = () => new Date().toISOString();
 
-app.post('/raiseIssue', (req, res) => {
+app.post('/api/raiseIssue', (req, res) => {
     const { title, description, priority = 'medium'} = req.body;
     if (!title || !description) {
         return res.status(400).json({
@@ -33,8 +42,7 @@ app.post('/raiseIssue', (req, res) => {
     });
 });
 
-// GET endpoint to fetch all issues with optional filters
-app.get('/getIssues', (req, res) => {
+app.get('/api/getIssues', (req, res) => {
     let filteredIssues = [...issues];
     res.json({
         count: filteredIssues.length,
@@ -42,7 +50,8 @@ app.get('/getIssues', (req, res) => {
     });
 });
 
-// Start the server
-app.listen(port, () => {
-    console.log(`Issue tracker API running at http://localhost:${port}`);
-});
+// Handle OPTIONS requests
+app.options('*', cors());
+
+// Export the express app
+module.exports = app;
