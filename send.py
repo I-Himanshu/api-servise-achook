@@ -78,7 +78,7 @@ class AlertSystemClient:
             Dict: List of alerts matching the filters
         """
         params = {}
-        if status:
+        if status: 
             params['status'] = status
         if priority:
             params['priority'] = priority
@@ -101,7 +101,7 @@ class AlertSystemClient:
 
 client = AlertSystemClient()
 new_alert = client.raise_alert(
-        title="Database Connection Error",
+        title="Database 3 Error",
         description="Database connection timeout in production environment",
         priority="high", # Optional, defaults to "medium"
     )
