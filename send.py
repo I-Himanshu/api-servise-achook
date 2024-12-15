@@ -1,9 +1,8 @@
 import requests
 from typing import Dict, Optional
-from datetime import datetime
 
 class AlertSystemClient:
-    def __init__(self, base_url: str = "http://localhost:3000"):
+    def __init__(self, base_url: str = "https://api-servise-achook.vercel.app/api"):
         """Initialize the Alert System client.
         
         Args:
@@ -98,27 +97,11 @@ class AlertSystemClient:
             print(f"Error getting alerts: {str(e)}")
             raise
 
-# Example usage
-if __name__ == "__main__":
-    # Create client instance
-    client = AlertSystemClient()
-    
-    try:
-        # Raise a new alert
-        new_alert = client.raise_alert(
-            title="Database Connection Error",
-            description="Database connection timeout in production environment",
-            priority="high", # Optional, defaults to "medium"
-        )
-        print("Created alert:", new_alert)
-        
-        # Get all high priority alerts
-        high_priority_alerts = client.get_alerts(priority="high")
-        print("\nHigh priority alerts:", high_priority_alerts)
-        
-        # Get all alerts assigned to Sarah
-        sarah_alerts = client.get_alerts(assigned_to="Sarah")
-        print("\nSarah's alerts:", sarah_alerts)
-        
-    except (requests.exceptions.RequestException, ValueError) as e:
-        print(f"Error: {str(e)}")
+
+
+client = AlertSystemClient()
+new_alert = client.raise_alert(
+        title="Database Connection Error",
+        description="Database connection timeout in production environment",
+        priority="high", # Optional, defaults to "medium"
+    )
